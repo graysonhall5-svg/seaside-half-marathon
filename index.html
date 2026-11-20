@@ -1,0 +1,516 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffe3ed">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Seaside 13.1">
+  <title>Seaside 13.1 🎀</title>
+  <link rel="apple-touch-icon" href="icon-180.png">
+  <link rel="icon" href="icon-192.png">
+  <link rel="manifest" href="manifest.json">
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      background: linear-gradient(
+        180deg, #ffe1ec 0%, #fff8fa 60%, #e6f5f4 100%
+      );
+      color: #753c58;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: auto;
+      padding: 30px 20px 65px;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px 0 25px;
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      letter-spacing: 3px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: #bb6c8d;
+    }
+
+    .art {
+      font-size: 47px;
+      margin: 22px 0 12px;
+    }
+
+    h1 {
+      font-family: Georgia, serif;
+      font-size: 46px;
+      color: #c4477b;
+      margin: 8px 0;
+    }
+
+    h2 {
+      font-family: Georgia, serif;
+      font-size: 29px;
+      margin: 10px 0;
+    }
+
+    .subtitle {
+      color: #9e6c84;
+      line-height: 1.5;
+    }
+
+    .card {
+      background: #fffdfd;
+      border: 2px solid #f8c9d9;
+      border-radius: 25px;
+      padding: 23px;
+      box-shadow: 0 12px 35px #a74d7020;
+    }
+
+    .week-label {
+      color: #ce5c8b;
+      font-size: 12px;
+      letter-spacing: 2px;
+      font-weight: 800;
+    }
+
+    .dates {
+      color: #9c7183;
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+
+    .run {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      padding: 18px 0;
+      border-bottom: 1px solid #f6dce5;
+      cursor: pointer;
+    }
+
+    .run:last-child { border-bottom: 0; }
+
+    .check {
+      width: 28px;
+      height: 28px;
+      border: 2px solid #e9a7c1;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      color: white;
+    }
+
+    .completed .check {
+      background: #ce5c8b;
+      border-color: #ce5c8b;
+    }
+
+    .completed .day {
+      text-decoration: line-through;
+      opacity: 0.55;
+    }
+
+    .details { flex: 1; }
+
+    .day { font-weight: 750; }
+
+    .type {
+      font-size: 12px;
+      color: #a47789;
+      margin-top: 4px;
+    }
+
+    .miles {
+      font-size: 19px;
+      font-weight: 800;
+      color: #c4477b;
+      white-space: nowrap;
+    }
+
+    .track {
+      height: 10px;
+      background: #f9dfeb;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-top: 22px;
+    }
+
+    .fill {
+      height: 100%;
+      width: 0%;
+      background: #d45d90;
+      transition: width 0.25s;
+    }
+
+    .progress {
+      font-size: 13px;
+      color: #9a7184;
+      margin: 10px 0;
+    }
+
+    .tip {
+      background: #fff0f6;
+      border-radius: 16px;
+      padding: 16px;
+      font-size: 13px;
+      line-height: 1.6;
+      margin-top: 18px;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    button {
+      border: 0;
+      background: #e5a0bd;
+      color: #6b2c4a;
+      padding: 12px 16px;
+      border-radius: 25px;
+      font-weight: 750;
+      cursor: pointer;
+    }
+
+    button:disabled { opacity: 0.35; }
+
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 13px;
+      color: #a27086;
+      line-height: 1.8;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <header>
+      <div class="eyebrow">
+        Seaside Half Marathon
+      </div>
+
+      <div class="art">🎀 👟 🐚</div>
+
+      <h1>Seaside 13.1</h1>
+
+      <p class="subtitle">
+        One week at a time, beach girl. 💗
+      </p>
+
+      <div class="eyebrow">
+        February 14, 2027
+      </div>
+    </header>
+
+    <main class="card">
+      <div class="week-label" id="weekLabel">
+        THIS WEEK
+      </div>
+
+      <h2 id="heading">Your runs this week</h2>
+
+      <div class="dates" id="dates"></div>
+
+      <div id="runs"></div>
+
+      <div class="track">
+        <div class="fill" id="fill"></div>
+      </div>
+
+      <div class="progress" id="progress"></div>
+
+      <div class="tip" id="tip">
+        🌷 Keep it easy. Walking breaks count!
+      </div>
+
+      <div class="nav">
+        <button id="previous">← Previous</button>
+        <button id="current">This week ♡</button>
+      </div>
+    </main>
+
+    <div class="footer">
+      Slow miles, strong girl. 🌷
+      <br>
+      Made with love for your finish line.
+    </div>
+
+  </div>
+
+  <script>
+    // Complete schedule. Future weeks remain hidden.
+    const weeks = [
+      [
+        ["2026-11-20", 2],
+        ["2026-11-22", 3]
+      ],
+      [
+        ["2026-11-24", 2],
+        ["2026-11-26", 3],
+        ["2026-11-28", 2],
+        ["2026-11-29", 4]
+      ],
+      [
+        ["2026-12-01", 2],
+        ["2026-12-03", 3],
+        ["2026-12-05", 2],
+        ["2026-12-06", 5]
+      ],
+      [
+        ["2026-12-08", 2],
+        ["2026-12-10", 3],
+        ["2026-12-12", 2],
+        ["2026-12-13", 4]
+      ],
+      [
+        ["2026-12-15", 3],
+        ["2026-12-17", 4],
+        ["2026-12-19", 2],
+        ["2026-12-20", 6]
+      ],
+      [
+        ["2026-12-22", 3],
+        ["2026-12-24", 4],
+        ["2026-12-26", 2],
+        ["2026-12-27", 7]
+      ],
+      [
+        ["2026-12-29", 3],
+        ["2026-12-31", 3],
+        ["2027-01-02", 2],
+        ["2027-01-03", 5]
+      ],
+      [
+        ["2027-01-05", 3],
+        ["2027-01-07", 4],
+        ["2027-01-09", 2],
+        ["2027-01-10", 8]
+      ],
+      [
+        ["2027-01-12", 3],
+        ["2027-01-14", 5],
+        ["2027-01-16", 2],
+        ["2027-01-17", 9]
+      ],
+      [
+        ["2027-01-19", 3],
+        ["2027-01-21", 4],
+        ["2027-01-23", 2],
+        ["2027-01-24", 7]
+      ],
+      [
+        ["2027-01-26", 3],
+        ["2027-01-28", 5],
+        ["2027-01-30", 2],
+        ["2027-01-31", 10]
+      ],
+      [
+        ["2027-02-02", 3],
+        ["2027-02-04", 4],
+        ["2027-02-06", 2],
+        ["2027-02-07", 6]
+      ],
+      [
+        ["2027-02-09", 3],
+        ["2027-02-11", 2],
+        ["2027-02-13", 1],
+        ["2027-02-14", 13.1]
+      ]
+    ];
+
+    const $ = id => document.getElementById(id);
+
+    function localDateString(date) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, "0");
+      const d = String(date.getDate()).padStart(2, "0");
+      return `${y}-${m}-${d}`;
+    }
+
+    function parseDate(date) {
+      return new Date(date + "T12:00:00");
+    }
+
+    function formatted(date) {
+      return parseDate(date).toLocaleDateString(
+        "en-US",
+        { weekday: "short", month: "short", day: "numeric" }
+      );
+    }
+
+    function shortDate(date) {
+      return parseDate(date).toLocaleDateString(
+        "en-US",
+        { month: "short", day: "numeric" }
+      );
+    }
+
+    const today = localDateString(new Date());
+
+    let activeWeek = 0;
+
+    weeks.forEach((week, index) => {
+      if (week[0][0] <= today) {
+        activeWeek = index;
+      }
+    });
+
+    let viewingWeek = activeWeek;
+    let completed = {};
+
+    try {
+      completed = JSON.parse(
+        localStorage.getItem("seaside-completed") || "{}"
+      );
+    } catch (error) {
+      completed = {};
+    }
+
+    function saveProgress() {
+      try {
+        localStorage.setItem(
+          "seaside-completed",
+          JSON.stringify(completed)
+        );
+      } catch (error) {
+        // Still usable if browser storage is unavailable.
+      }
+    }
+
+    function render() {
+      const week = weeks[viewingWeek];
+      const raceWeek = viewingWeek === weeks.length - 1;
+
+      $("weekLabel").textContent =
+        viewingWeek === activeWeek
+          ? "THIS WEEK"
+          : "PREVIOUS WEEK";
+
+      $("heading").textContent =
+        raceWeek
+          ? "Race week, babe! ♡"
+          : "Your runs this week";
+
+      $("dates").textContent =
+        shortDate(week[0][0]) +
+        " – " +
+        shortDate(week[week.length - 1][0]);
+
+      $("runs").replaceChildren();
+
+      let doneCount = 0;
+
+      week.forEach(([date, miles], index) => {
+        const done = !!completed[date];
+
+        if (done) doneCount++;
+
+        const row = document.createElement("div");
+        row.className = "run" + (done ? " completed" : "");
+        row.setAttribute("role", "checkbox");
+        row.setAttribute("aria-checked", String(done));
+        row.tabIndex = 0;
+
+        let type = "Easy run";
+
+        if (index === week.length - 1) {
+          type = "Long & easy run";
+        }
+
+        if (raceWeek && index === 2) {
+          type = "Optional shakeout";
+        }
+
+        if (raceWeek && index === 3) {
+          type = "RACE DAY 🎀";
+        }
+
+        const check = document.createElement("div");
+        check.className = "check";
+        check.textContent = done ? "✓" : "";
+
+        const details = document.createElement("div");
+        details.className = "details";
+
+        const day = document.createElement("div");
+        day.className = "day";
+        day.textContent = formatted(date);
+
+        const description = document.createElement("div");
+        description.className = "type";
+        description.textContent = type;
+
+        details.append(day, description);
+
+        const distance = document.createElement("div");
+        distance.className = "miles";
+        distance.textContent = miles + " mi";
+
+        row.append(check, details, distance);
+
+        function toggle() {
+          completed[date] = !completed[date];
+          saveProgress();
+          render();
+        }
+
+        row.addEventListener("click", toggle);
+
+        row.addEventListener("keydown", event => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            toggle();
+          }
+        });
+
+        $("runs").appendChild(row);
+      });
+
+      const percentage = doneCount / week.length * 100;
+      $("fill").style.width = percentage + "%";
+
+      $("progress").textContent =
+        doneCount === week.length
+          ? "All done! You crushed it! 💗"
+          : doneCount + " of " + week.length + " runs completed";
+
+      $("tip").textContent = raceWeek
+        ? "🌸 You've worked for this. Take your time, fuel, and enjoy your race!"
+        : "🌷 Keep your pace conversational. Walk breaks are always okay. If you're sore or need more recovery, it's okay to adjust.";
+
+      $("previous").disabled = viewingWeek === 0;
+      $("current").disabled = viewingWeek === activeWeek;
+    }
+
+    $("previous").addEventListener("click", () => {
+      if (viewingWeek > 0) {
+        viewingWeek--;
+        render();
+      }
+    });
+
+    $("current").addEventListener("click", () => {
+      viewingWeek = activeWeek;
+      render();
+    });
+
+    render();
+  </script>
+</body>
+</html>
